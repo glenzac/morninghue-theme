@@ -1,0 +1,79 @@
+! ============================================================================
+! MorningHue - Xresources color theme for xterm
+!
+! A vivid light colorscheme with a warm off-white background.
+! Designed for 256-color terminals in brightly-lit environments.
+!
+! Usage:
+!   Copy to ~/.Xresources (or merge with existing), then run:
+!     xrdb -merge ~/.Xresources
+!
+!   Or source from your main .Xresources:
+!     #include "/path/to/morninghue.Xresources"
+! ============================================================================
+
+! --- Terminal settings ---
+XTerm*termName:        xterm-256color
+XTerm*locale:          true
+XTerm*utf8:            2
+XTerm*renderFont:      true
+
+! --- Font (adjust to preference) ---
+XTerm*faceName:        Monospace
+XTerm*faceSize:        11
+
+! --- Background and foreground ---
+! Warm off-white background 
+XTerm*background:      #F1EDE5
+XTerm*foreground:      #444444
+XTerm*cursorColor:     #005faf
+XTerm*cursorBlink:     false
+
+! --- Bold and italic ---
+XTerm*boldMode:        true
+XTerm*colorBDMode:     false
+XTerm*boldColors:      true
+
+! --- Selection ---
+XTerm*highlightColor:       #005faf
+XTerm*highlightTextColor:   #eeeeee
+
+! --- Scrollbar ---
+XTerm*scrollBar:       false
+
+! --- ANSI 16-color palette ---
+! Normal colors (0-7)
+! 0: Black (used as foreground text)
+XTerm*color0:          #444444
+! 1: Red (errors, deletions)
+XTerm*color1:          #af0000
+! 2: Green (strings, success)
+XTerm*color2:          #005f00
+! 3: Yellow (numbers, warnings)
+XTerm*color3:          #875f00
+! 4: Blue (keywords, structure)
+XTerm*color4:          #0000d7
+! 5: Magenta (control flow)
+XTerm*color5:          #870087
+! 6: Cyan (identifiers, operators)
+XTerm*color6:          #005f87
+! 7: White (light background elements)
+XTerm*color7:          #e4e4e4
+
+! Bright colors (8-15)
+! 8: Bright black (comments)
+XTerm*color8:          #949494
+! 9: Bright red (imports, vivid red)
+XTerm*color9:          #d70000
+! 10: Bright green (functions, dark teal)
+XTerm*color10:         #005f87
+! 11: Bright yellow (statements, bright purple)
+XTerm*color11:         #af00d7
+! 12: Bright blue (operators, medium blue)
+XTerm*color12:         #005faf
+! 13: Bright magenta (rose, assertions)
+XTerm*color13:         #af005f
+! 14: Bright cyan (boolean, sea teal)
+XTerm*color14:         #005f5f
+! 15: Bright white (background)
+XTerm*color15:         #F1EDE5

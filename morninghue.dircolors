@@ -1,0 +1,185 @@
+# ============================================================================
+# MorningHue - dircolors configuration
+#
+# Custom LS_COLORS for light terminal backgrounds.
+# Fixes broken/orphaned symlink visibility (a common issue with light themes).
+#
+# Usage:
+#   eval $(dircolors /path/to/morninghue.dircolors)
+#
+#   Or add to your shell rc file:
+#     [ -f /path/to/morninghue.dircolors ] && eval $(dircolors /path/to/morninghue.dircolors)
+# ============================================================================
+
+# --- Terminal types that support color ---
+TERM xterm
+TERM xterm-256color
+TERM screen
+TERM screen-256color
+TERM tmux
+TERM tmux-256color
+TERM rxvt
+TERM rxvt-unicode
+TERM rxvt-unicode-256color
+TERM linux
+TERM vt100
+
+# --- Core file types ---
+# Normal text (dark gray on default bg)
+NORMAL 00;38;5;238
+# Regular file
+FILE 00;38;5;238
+# Directory (vivid blue, bold)
+DIR 01;38;5;20
+# Symbolic link (cerulean blue)
+LINK 00;38;5;26
+# Named pipe (FIFO) (dark golden on light yellow bg)
+FIFO 00;38;5;94;48;5;229
+# Socket (bright purple)
+SOCK 00;38;5;128
+# Block device (dark golden, bold)
+BLK 01;38;5;94;48;5;229
+# Character device (dark golden, bold)
+CHR 01;38;5;94;48;5;229
+# Door (bright purple)
+DOOR 00;38;5;128
+
+# --- Broken symlinks (HIGH VISIBILITY) ---
+# This is the key fix for light backgrounds.
+# Orphan: the dangling symlink itself (bold red on light pink bg)
+ORPHAN 01;38;5;124;48;5;224
+# Missing: the non-existent target (bold red, strikethrough effect via blinking)
+MISSING 01;05;38;5;124;48;5;224
+
+# --- Permission-based ---
+# Setuid (u+s) - red bg
+SETUID 01;38;5;255;48;5;124
+# Setgid (g+s) - golden bg
+SETGID 01;38;5;238;48;5;229
+# Sticky directory (+t)
+STICKY 01;38;5;255;48;5;25
+# Other-writable directory (o+w)
+OTHER_WRITABLE 01;38;5;20;48;5;229
+# Sticky + other-writable
+STICKY_OTHER_WRITABLE 01;38;5;255;48;5;23
+
+# --- Executable files (dark green, bold) ---
+EXEC 01;38;5;22
+
+# --- Archives and compressed files (vivid red) ---
+.tar  00;38;5;160
+.tgz  00;38;5;160
+.gz   00;38;5;160
+.bz2  00;38;5;160
+.xz   00;38;5;160
+.zip  00;38;5;160
+.7z   00;38;5;160
+.rar  00;38;5;160
+.lz   00;38;5;160
+.lzma 00;38;5;160
+.zst  00;38;5;160
+.deb  00;38;5;160
+.rpm  00;38;5;160
+.jar  00;38;5;160
+
+# --- Image files (deep magenta) ---
+.jpg  00;38;5;90
+.jpeg 00;38;5;90
+.png  00;38;5;90
+.gif  00;38;5;90
+.bmp  00;38;5;90
+.svg  00;38;5;90
+.ico  00;38;5;90
+.tif  00;38;5;90
+.tiff 00;38;5;90
+.webp 00;38;5;90
+
+# --- Video files (bright purple) ---
+.avi  00;38;5;128
+.mp4  00;38;5;128
+.mkv  00;38;5;128
+.mov  00;38;5;128
+.wmv  00;38;5;128
+.flv  00;38;5;128
+.webm 00;38;5;128
+
+# --- Audio files (bright purple, italic-like) ---
+.mp3  00;38;5;128
+.wav  00;38;5;128
+.flac 00;38;5;128
+.ogg  00;38;5;128
+.aac  00;38;5;128
+
+# --- Document files (medium blue) ---
+.pdf  00;38;5;25
+.doc  00;38;5;25
+.docx 00;38;5;25
+.xls  00;38;5;25
+.xlsx 00;38;5;25
+.ppt  00;38;5;25
+.pptx 00;38;5;25
+.odt  00;38;5;25
+.ods  00;38;5;25
+.odp  00;38;5;25
+
+# --- Source code files (dark green) ---
+.c    00;38;5;22
+.cpp  00;38;5;22
+.h    00;38;5;22
+.hpp  00;38;5;22
+.py   00;38;5;22
+.rb   00;38;5;22
+.rs   00;38;5;22
+.go   00;38;5;22
+.java 00;38;5;22
+.js   00;38;5;22
+.ts   00;38;5;22
+.pl   00;38;5;22
+.sh   00;38;5;22
+.bash 00;38;5;22
+.zsh  00;38;5;22
+.csh  00;38;5;22
+.tcsh 00;38;5;22
+.tcl  00;38;5;22
+.lua  00;38;5;22
+.vim  00;38;5;22
+
+# --- HDV source files (vivid blue — prominent for verification engineers) ---
+.sv     01;38;5;20
+.svh    01;38;5;20
+.v      01;38;5;20
+.vh     01;38;5;20
+.vhd    01;38;5;20
+.vhdl   01;38;5;20
+.f      00;38;5;25
+.sdc    00;38;5;25
+.xdc    00;38;5;25
+.ucf    00;38;5;25
+
+# --- Config and data files (dark teal) ---
+.cfg  00;38;5;24
+.conf 00;38;5;24
+.ini  00;38;5;24
+.toml 00;38;5;24
+.yaml 00;38;5;24
+.yml  00;38;5;24
+.json 00;38;5;24
+.xml  00;38;5;24
+.csv  00;38;5;24
+
+# --- Markdown and text (dark golden) ---
+.md   00;38;5;94
+.rst  00;38;5;94
+.txt  00;38;5;94
+.log  00;38;5;94
+
+# --- Makefiles and build (dark crimson) ---
+# (These are matched by name, not extension, in most shells)
+
+# --- Backup and temp files (comment gray) ---
+.bak  00;38;5;246
+.swp  00;38;5;246
+.swo  00;38;5;246
+.tmp  00;38;5;246
+.orig 00;38;5;246
+*~    00;38;5;246

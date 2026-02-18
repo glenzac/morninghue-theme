@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MorningHue — A Vivid Light Color Theme</title>
+<meta name="description" content="MorningHue: a contrast-verified vivid light color theme for Vim, xterm, and tmux. WCAG AA/AAA compliant.">
+<style>
+  :root {
+    --bg-page: #eeeeee;
+    --bg-theme: #F1EDE5;
+    --bg-cursor: #E4DED6;
+    --fg: #444444;
+    --accent: #005faf;
+    --accent-dark: #005f87;
+    --blue: #0000d7;
+    --purple: #5f00d7;
+    --magenta: #870087;
+    --crimson: #870000;
+    --statement: #af00d7;
+    --green: #005f00;
+    --golden: #875f00;
+    --function: #005f87;
+    --operator: #005faf;
+    --red: #d70000;
+    --teal: #005f87;
+    --seaTeal: #005f5f;
+    --error: #af0000;
+    --comment: #949494;
+    --linenr: #b2b2b2;
+    --nontext: #bcbcbc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg-page);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+
+  /* --- Layout --- */
+  .container { max-width: 100%; margin: 0 auto; padding: 0 48px; }
+  section { padding: 48px 0; }
+  section + section { border-top: 1px solid #ddd6cc; }
+
+  /* --- Typography --- */
+  h1 { font-size: 2.8rem; font-weight: 700; color: var(--accent); letter-spacing: -0.02em; }
+  h2 { font-size: 1.5rem; font-weight: 600; color: var(--accent-dark); margin-bottom: 16px; }
+  h3 { font-size: 1.1rem; font-weight: 600; color: var(--fg); margin: 24px 0 10px 0; }
+  p { margin-bottom: 14px; max-width: 720px; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .tagline { font-size: 1.15rem; color: #666; margin: 8px 0 20px 0; max-width: 600px; }
+  .badge {
+    display: inline-block; padding: 4px 12px; border-radius: 20px;
+    font-size: 0.78rem; font-weight: 600; margin: 3px 4px 3px 0;
+  }
+  .badge-aaa { background: #e8f5e9; color: #2e7d32; }
+  .badge-aa { background: #e3f2fd; color: #1565c0; }
+  .badge-light { background: #fce4ec; color: #ad1457; }
+
+  /* --- Hero --- */
+  .hero {
+    padding: 64px 0 40px 0;
+    text-align: center;
+  }
+  .hero .tagline { margin: 8px auto 24px auto; text-align: center; }
+  .hero-badges { margin-bottom: 20px; }
+
+  /* --- Palette swatches --- */
+  .palette-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(155px, 1fr));
+    gap: 10px;
+    margin: 12px 0 20px 0;
+  }
+  .swatch {
+    border-radius: 8px; overflow: hidden;
+    border: 1px solid #ddd6cc; background: #fff;
+  }
+  .swatch-color {
+    height: 50px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Consolas', 'SF Mono', 'Fira Code', monospace;
+    font-size: 0.8rem; font-weight: 600;
+  }
+  .swatch-info {
+    padding: 6px 8px; font-size: 0.72rem; line-height: 1.35;
+  }
+  .swatch-name { font-weight: 600; }
+  .swatch-meta { color: #888; }
+
+  /* --- Code editor frames --- */
+  .editor {
+    border-radius: 10px; overflow: hidden;
+    border: 1px solid #ddd6cc; margin: 14px 0 24px 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  .editor-bar {
+    background: var(--accent-dark); padding: 7px 14px;
+    font-size: 0.78rem; color: #dde8f0;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .editor-dots { display: flex; gap: 5px; }
+  .editor-dots span { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .editor-body {
+    background: var(--bg-theme); display: flex;
+    font-family: 'Consolas', 'SF Mono', 'Fira Code', 'Liberation Mono', monospace;
+    font-size: 0.84rem; line-height: 1.6;
+  }
+  .line-nums {
+    padding: 14px 10px 14px 14px; text-align: right;
+    color: var(--linenr); user-select: none;
+    border-right: 1px solid #ddd6cc; min-width: 38px;
+    white-space: pre;
+  }
+  .code {
+    padding: 14px 16px; flex: 1; overflow-x: auto; white-space: pre; color: var(--fg);
+  }
+  .cl { background: var(--bg-cursor); display: block; margin: 0 -16px; padding: 0 16px; }
+
+  /* Syntax classes */
+  .kw   { color: var(--blue); font-weight: bold; }
+  .ctrl { color: var(--magenta); font-weight: bold; }
+  .typ  { color: var(--purple); font-weight: bold; }
+  .pp   { color: var(--crimson); }
+  .def  { color: var(--crimson); font-weight: bold; }
+  .stmt { color: var(--statement); }
+  .str  { color: var(--green); }
+  .num  { color: var(--golden); font-weight: bold; }
+  .fn   { color: var(--function); }
+  .inc  { color: var(--red); }
+  .op   { color: var(--operator); }
+  .bool { color: var(--seaTeal); font-weight: bold; }
+  .err  { color: var(--error); font-weight: bold; }
+  .cmt  { color: var(--comment); font-style: italic; }
+  .id   { color: var(--teal); }
+
+  /* --- Contrast table --- */
+  table {
+    border-collapse: collapse; width: 100%;
+    font-size: 0.84rem; margin: 12px 0;
+  }
+  th, td { padding: 8px 12px; text-align: left; border-bottom: 1px solid #ddd6cc; }
+  th { background: var(--bg-cursor); font-weight: 600; color: var(--accent-dark); }
+  tr:hover td { background: #f0ece4; }
+  .cr-bar {
+    display: inline-block; height: 10px; border-radius: 3px;
+    vertical-align: middle; margin-right: 6px;
+  }
+  .grade-aaa { color: #2e7d32; font-weight: 700; }
+  .grade-aa  { color: #1565c0; font-weight: 700; }
+  .grade-sub { color: #888; }
+
+  /* --- UI demos --- */
+  .ui-grid { display: flex; flex-wrap: wrap; gap: 14px; margin: 12px 0; }
+  .ui-box {
+    font-family: 'Consolas', monospace; font-size: 0.84rem;
+    padding: 8px 18px; border-radius: 6px; min-width: 210px;
+  }
+
+  /* --- Statusline / tmux demos --- */
+  .statusline-demo {
+    max-width: 700px; margin: 10px 0;
+    font-family: 'Consolas', monospace; font-size: 0.82rem;
+    border-radius: 6px; overflow: hidden;
+  }
+  .sl-active { background: var(--accent); color: #eee; padding: 5px 14px; font-weight: bold; }
+  .sl-inactive { background: #d0d0d0; color: var(--fg); padding: 5px 14px; }
+
+  .tmux-demo {
+    max-width: 700px; background: var(--accent); color: #eee;
+    padding: 5px 0; font-family: 'Consolas', monospace; font-size: 0.8rem;
+    display: flex; border-radius: 6px; margin: 10px 0;
+  }
+  .tmux-left { padding: 2px 12px; font-weight: bold; }
+  .tmux-win { padding: 2px 10px; margin: 0 2px; border-radius: 3px; }
+  .tmux-active { background: var(--bg-theme); color: var(--accent); font-weight: bold; }
+  .tmux-inact { background: rgba(255,255,255,0.15); }
+  .tmux-right { margin-left: auto; padding: 2px 12px; }
+
+  /* --- Diff demo --- */
+  .diff-demo {
+    max-width: 520px; font-family: 'Consolas', monospace; font-size: 0.82rem;
+    border-radius: 6px; overflow: hidden; border: 1px solid #ddd6cc; margin: 10px 0;
+  }
+  .diff-add    { background: #afffaf; color: #005f00; padding: 3px 12px; }
+  .diff-del    { background: #ffd7d7; color: #af0000; padding: 3px 12px; }
+  .diff-change { background: #ffd787; color: #444444; padding: 3px 12px; }
+
+  /* --- Install code blocks --- */
+  .install-code {
+    background: var(--bg-theme); border: 1px solid #ddd6cc;
+    border-radius: 6px; padding: 14px 18px;
+    font-family: 'Consolas', monospace; font-size: 0.84rem;
+    overflow-x: auto; margin: 10px 0 16px 0; color: var(--fg);
+    white-space: pre;
+  }
+
+  /* --- Comparison table --- */
+  .cmp-better { color: #2e7d32; font-weight: 600; }
+  .cmp-worse  { color: #c62828; }
+
+  /* --- Symlink demo --- */
+  .ls-demo {
+    background: var(--bg-theme); border: 1px solid #ddd6cc;
+    border-radius: 6px; padding: 14px 18px;
+    font-family: 'Consolas', monospace; font-size: 0.84rem;
+    margin: 10px 0; line-height: 1.8;
+  }
+
+  /* --- Footer --- */
+  footer {
+    padding: 32px 0; text-align: center; color: #999; font-size: 0.82rem;
+    border-top: 1px solid #ddd6cc;
+  }
+
+  /* --- Responsive --- */
+  @media (max-width: 640px) {
+    h1 { font-size: 2rem; }
+    .palette-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+    .editor-body { font-size: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ======================== HERO ======================== -->
+<section class="hero">
+  <div class="container">
+    <h1>MorningHue</h1>
+    <p class="tagline">A vivid light color theme for Vim, xterm, and tmux. Designed for brightly-lit environments with WCAG-verified contrast ratios.</p>
+    <div class="hero-badges">
+      <span class="badge badge-aaa">AAA 7:1+ Keywords</span>
+      <span class="badge badge-aa">AA 4.5:1+ All Syntax</span>
+      <span class="badge badge-light">Light Theme</span>
+      <span class="badge" style="background:#f3e5f5;color:#6a1b9a;">256-Color</span>
+    </div>
+    <p style="margin:0 auto;"><a href="https://github.com/yourusername/morninghue">View on GitHub</a></p>
+  </div>
+</section>
+
+<!-- ======================== PALETTE ======================== -->
+<section>
+  <div class="container">
+    <h2>Color Palette</h2>
+    <p>Every color is verified against the warm off-white background (<code>#F1EDE5</code>). Keywords and control flow exceed AAA (7:1), all other syntax colors meet AA (4.5:1).</p>
+
+    <h3>Background &amp; Foreground</h3>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#444;">Aa Bb Cc</div>
+        <div class="swatch-info"><span class="swatch-name">Background</span><br><span class="swatch-meta">#F1EDE5</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#444;font-size:1rem;">The quick brown fox</div>
+        <div class="swatch-info"><span class="swatch-name">Foreground</span><br><span class="swatch-meta">#444444 &middot; cterm 238 &middot; CR 8.33</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#E4DED6;color:#444;">CursorLine</div>
+        <div class="swatch-info"><span class="swatch-name">Cursor Line</span><br><span class="swatch-meta">#E4DED6 &middot; cterm 254</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#949494;font-style:italic;">// comment</div>
+        <div class="swatch-info"><span class="swatch-name">Comment</span><br><span class="swatch-meta">#949494 &middot; cterm 246 &middot; Subtle</span></div>
+      </div>
+    </div>
+
+    <h3>AAA Tier &mdash; CR &ge; 7:1</h3>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#0000d7;font-weight:bold;">module</div>
+        <div class="swatch-info"><span class="swatch-name">Vivid Blue</span><br><span class="swatch-meta">#0000d7 &middot; 20 &middot; CR 9.08</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#870000;font-weight:bold;">`define</div>
+        <div class="swatch-info"><span class="swatch-name">Dark Crimson</span><br><span class="swatch-meta">#870000 &middot; 88 &middot; CR 8.86</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#870087;font-weight:bold;">always_ff</div>
+        <div class="swatch-info"><span class="swatch-name">Deep Magenta</span><br><span class="swatch-meta">#870087 &middot; 90 &middot; CR 7.56</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#5f00d7;font-weight:bold;">logic</div>
+        <div class="swatch-info"><span class="swatch-name">Vivid Purple</span><br><span class="swatch-meta">#5f00d7 &middot; 56 &middot; CR 7.29</span></div>
+      </div>
+    </div>
+
+    <h3>AA Tier &mdash; CR &ge; 4.5:1</h3>
+    <div class="palette-grid">
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#005f00;">"string"</div>
+        <div class="swatch-info"><span class="swatch-name">Dark Green</span><br><span class="swatch-meta">#005f00 &middot; 22 &middot; CR 6.82</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#005f5f;font-weight:bold;">1'b1</div>
+        <div class="swatch-info"><span class="swatch-name">Sea Teal</span><br><span class="swatch-meta">#005f5f &middot; 23 &middot; CR 6.42</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#af0000;font-weight:bold;">Error</div>
+        <div class="swatch-info"><span class="swatch-name">Deep Red</span><br><span class="swatch-meta">#af0000 &middot; 124 &middot; CR 6.37</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#005faf;">a + b</div>
+        <div class="swatch-info"><span class="swatch-name">Medium Blue</span><br><span class="swatch-meta">#005faf &middot; 25 &middot; CR 5.52</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#005f87;">my_func()</div>
+        <div class="swatch-info"><span class="swatch-name">Dark Teal</span><br><span class="swatch-meta">#005f87 &middot; 24 &middot; CR 6.06</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#875f00;font-weight:bold;">32'hFF</div>
+        <div class="swatch-info"><span class="swatch-name">Dark Golden</span><br><span class="swatch-meta">#875f00 &middot; 94 &middot; CR 4.90</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#af00d7;">assert</div>
+        <div class="swatch-info"><span class="swatch-name">Bright Purple</span><br><span class="swatch-meta">#af00d7 &middot; 128 &middot; CR 4.73</span></div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-color" style="background:#F1EDE5;color:#d70000;">import</div>
+        <div class="swatch-info"><span class="swatch-name">Vivid Red</span><br><span class="swatch-meta">#d70000 &middot; 160 &middot; CR 4.62</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== CODE EXAMPLES ======================== -->
+<section>
+  <div class="container">
+    <h2>Code Examples</h2>
+    <p>MorningHue highlights all standard Vim syntax groups, so any language Vim supports works automatically. Here are examples from several languages commonly used in hardware verification and software development.</p>
+
+    <!-- SystemVerilog -->
+    <h3>SystemVerilog</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        alu_scoreboard.sv
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20</div>
+        <div class="code"><span class="pp">`include</span> <span class="str">"uvm_macros.svh"</span>
+<span class="pp">`define</span> <span class="def">TIMEOUT</span> <span class="num">1000</span>
+
+<span class="kw">module</span> alu_scoreboard <span class="op">#</span>(<span class="kw">parameter</span> <span class="typ">int</span> <span class="def">WIDTH</span> <span class="op">=</span> <span class="num">32</span>) (
+  <span class="typ">input</span>  <span class="typ">logic</span>             clk,
+  <span class="typ">input</span>  <span class="typ">logic</span>             rst_n,
+  <span class="typ">input</span>  <span class="typ">logic</span> [<span class="def">WIDTH</span><span class="op">-</span><span class="num">1</span>:<span class="num">0</span>] a, b,
+  <span class="typ">output</span> <span class="typ">logic</span> [<span class="def">WIDTH</span><span class="op">-</span><span class="num">1</span>:<span class="num">0</span>] result
+);
+
+  <span class="typ">logic</span> [<span class="def">WIDTH</span><span class="op">-</span><span class="num">1</span>:<span class="num">0</span>] expected;
+
+<span class="cl">  <span class="ctrl">always_comb</span> <span class="ctrl">begin</span></span>
+    <span class="ctrl">case</span> (opcode)
+      <span class="num">3'b000</span>: expected <span class="op">=</span> a <span class="op">+</span> b;
+      <span class="num">3'b001</span>: expected <span class="op">=</span> a <span class="op">-</span> b;
+      <span class="ctrl">default</span>: expected <span class="op">=</span> <span class="num">'0</span>;
+    <span class="ctrl">endcase</span>
+  <span class="ctrl">end</span>
+
+  <span class="stmt">assert property</span> (<span class="op">@</span>(<span class="ctrl">posedge</span> clk) result <span class="op">===</span> expected)
+    <span class="ctrl">else</span> <span class="err">$error</span>(<span class="str">"Mismatch: got %h, exp %h"</span>, result, expected);
+<span class="kw">endmodule</span></div>
+      </div>
+    </div>
+
+    <!-- Python -->
+    <h3>Python</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        regression.py
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13</div>
+        <div class="code"><span class="inc">import</span> subprocess
+<span class="inc">from</span> pathlib <span class="inc">import</span> Path
+
+<span class="def">MAX_PARALLEL</span> <span class="op">=</span> <span class="num">8</span>
+
+<span class="ctrl">def</span> <span class="fn">run_regression</span>(test_dir: <span class="typ">str</span>, seed: <span class="typ">int</span> <span class="op">=</span> <span class="num">42</span>) <span class="op">-&gt;</span> <span class="typ">bool</span>:
+    <span class="str">"""Execute a full regression run."""</span>
+    test_path <span class="op">=</span> Path(test_dir)
+<span class="cl">    <span class="ctrl">if</span> <span class="ctrl">not</span> test_path.<span class="fn">exists</span>():</span>
+        <span class="ctrl">raise</span> <span class="err">FileNotFoundError</span>(<span class="str">f"Test dir missing"</span>)
+    <span class="ctrl">for</span> cfg <span class="ctrl">in</span> test_path.<span class="fn">glob</span>(<span class="str">"*.cfg"</span>):
+        result <span class="op">=</span> subprocess.<span class="fn">run</span>([<span class="str">"simv"</span>, <span class="str">"+seed="</span> <span class="op">+</span> <span class="fn">str</span>(seed)])
+    <span class="ctrl">return</span> <span class="bool">True</span></div>
+      </div>
+    </div>
+
+    <!-- C -->
+    <h3>C</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        driver.c
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12</div>
+        <div class="code"><span class="inc">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+<span class="inc">#include</span> <span class="str">&lt;stdlib.h&gt;</span>
+
+<span class="def">#define</span> <span class="def">BUF_SIZE</span> <span class="num">1024</span>
+
+<span class="typ">int</span> <span class="fn">process_data</span>(<span class="typ">const</span> <span class="typ">char</span> <span class="op">*</span>input, <span class="typ">size_t</span> len) {
+    <span class="typ">char</span> buffer[<span class="def">BUF_SIZE</span>];
+    <span class="ctrl">if</span> (input <span class="op">==</span> <span class="bool">NULL</span> <span class="op">||</span> len <span class="op">==</span> <span class="num">0</span>) {
+        <span class="ctrl">return</span> <span class="op">-</span><span class="num">1</span>;
+    }
+    <span class="fn">printf</span>(<span class="str">"Processing %zu bytes\n"</span>, len);
+    <span class="ctrl">return</span> <span class="num">0</span>;
+}</div>
+      </div>
+    </div>
+
+    <!-- Makefile -->
+    <h3>Makefile</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        Makefile
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8</div>
+        <div class="code"><span class="cmt"># Simulation build targets</span>
+<span class="def">VCS_HOME</span>  <span class="op">:=</span> <span class="str">/tools/synopsys/vcs/R-2023.12</span>
+<span class="def">SEED</span>      <span class="op">:=</span> <span class="num">42</span>
+
+<span class="fn">compile</span>: filelist.f
+	$(<span class="def">VCS_HOME</span>)/bin/vcs <span class="op">-</span>sverilog <span class="op">-</span>f filelist.f
+
+<span class="fn">sim</span>: compile
+	./simv <span class="op">+</span>ntb_random_seed<span class="op">=</span>$(<span class="def">SEED</span>)</div>
+      </div>
+    </div>
+
+    <!-- TCL -->
+    <h3>TCL</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        run_sim.tcl
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8</div>
+        <div class="code"><span class="cmt"># Simulation run script</span>
+<span class="ctrl">proc</span> <span class="fn">run_test</span> {testname seed} {
+    <span class="kw">set</span> logfile <span class="str">"logs/${testname}_${seed}.log"</span>
+    <span class="ctrl">if</span> {[<span class="fn">file exists</span> <span class="id">$logfile</span>]} {
+        <span class="fn">file delete</span> <span class="id">$logfile</span>
+    }
+    <span class="kw">puts</span> <span class="str">"Running: $testname with seed $seed"</span>
+    <span class="inc">source</span> <span class="str">"configs/${testname}.tcl"</span>
+}</div>
+      </div>
+    </div>
+
+    <!-- Bash -->
+    <h3>Bash / Shell</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        run_tests.sh
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8
+9</div>
+        <div class="code"><span class="cmt">#!/bin/bash</span>
+<span class="def">PROJ_DIR</span><span class="op">=</span><span class="str">"/home/user/verification"</span>
+<span class="def">NUM_SEEDS</span><span class="op">=</span><span class="num">10</span>
+
+<span class="ctrl">for</span> seed <span class="ctrl">in</span> $(<span class="fn">seq</span> <span class="num">1</span> <span class="id">$NUM_SEEDS</span>); <span class="ctrl">do</span>
+    <span class="fn">echo</span> <span class="str">"Running seed: $seed"</span>
+    <span class="ctrl">if</span> ! ./simv <span class="op">+</span>seed<span class="op">=</span><span class="id">$seed</span>; <span class="ctrl">then</span>
+        <span class="fn">echo</span> <span class="str">"FAILED at seed $seed"</span> <span class="op">&gt;&amp;</span><span class="num">2</span>
+    <span class="ctrl">fi</span>
+<span class="ctrl">done</span></div>
+      </div>
+    </div>
+
+    <!-- JSON -->
+    <h3>JSON</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        config.json
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7
+8</div>
+        <div class="code">{
+  <span class="kw">"testbench"</span>: <span class="str">"alu_tb"</span>,
+  <span class="kw">"num_tests"</span>: <span class="num">1000</span>,
+  <span class="kw">"coverage"</span>: <span class="bool">true</span>,
+  <span class="kw">"timeout_ns"</span>: <span class="num">50000</span>,
+  <span class="kw">"debug"</span>: <span class="bool">false</span>,
+  <span class="kw">"seed"</span>: <span class="bool">null</span>
+}</div>
+      </div>
+    </div>
+
+    <!-- Markdown -->
+    <h3>Markdown</h3>
+    <div class="editor">
+      <div class="editor-bar">
+        <div class="editor-dots"><span style="background:#ff5f56;"></span><span style="background:#ffbd2e;"></span><span style="background:#27c93f;"></span></div>
+        README.md
+      </div>
+      <div class="editor-body">
+        <div class="line-nums">1
+2
+3
+4
+5
+6
+7</div>
+        <div class="code"><span class="kw"># ALU Verification</span>
+
+This project contains the <span style="font-weight:bold;">UVM testbench</span> for the <span style="font-style:italic;">ALU module</span>.
+
+<span class="ctrl">## Getting Started</span>
+
+<span class="str">`make compile`</span> followed by <span class="str">`make sim`</span> to run.
+<span class="op">[Documentation](</span><span class="fn">https://example.com</span><span class="op">)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== UI ELEMENTS ======================== -->
+<section>
+  <div class="container">
+    <h2>UI Elements</h2>
+
+    <h3>Vim Statusline</h3>
+    <div class="statusline-demo">
+      <div class="sl-active">&nbsp;NORMAL&nbsp; | alu_scoreboard.sv [+] &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; utf-8 | systemverilog &nbsp; 15:24</div>
+      <div class="sl-inactive">&nbsp;regression.py &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1:1</div>
+    </div>
+
+    <h3>tmux Status Bar</h3>
+    <div class="tmux-demo">
+      <div class="tmux-left">[verif]</div>
+      <div class="tmux-win tmux-inact">0:build</div>
+      <div class="tmux-win tmux-active">1:vim</div>
+      <div class="tmux-win tmux-inact">2:sim</div>
+      <div class="tmux-win tmux-inact">3:waves</div>
+      <div class="tmux-right">14:32 &nbsp; 18-Feb-26</div>
+    </div>
+
+    <h3>Diagnostics &amp; Selection</h3>
+    <div class="ui-grid">
+      <div class="ui-box" style="background:#005faf;color:#eee;">Visual: selected text</div>
+      <div class="ui-box" style="background:#ffff5f;color:#444;">Search: /pattern/</div>
+    </div>
+    <div class="ui-grid">
+      <div class="ui-box" style="background:#ffd7d7;color:#af0000;font-weight:bold;">Error: undefined 'clk_i'</div>
+      <div class="ui-box" style="background:#ffffaf;color:#875f00;">Warning: unused 'debug_en'</div>
+    </div>
+    <div class="ui-grid">
+      <div class="ui-box" style="background:#F1EDE5;color:#d70000;font-weight:bold;border:1px solid #ddd6cc;">TODO: add edge case coverage</div>
+      <div class="ui-box" style="background:#afd7ff;color:#444;font-weight:bold;border:1px solid #ddd6cc;">MatchParen: begin <span style="border:2px solid #005faf;border-radius:3px;padding:0 3px;">)</span></div>
+    </div>
+
+    <h3>Diff View</h3>
+    <div class="diff-demo">
+      <div class="diff-del">&minus; logic [7:0] data_old;</div>
+      <div class="diff-add">&plus; logic [15:0] data_wide;</div>
+      <div class="diff-change">&nbsp; assign result = a + b + carry;</div>
+    </div>
+
+    <h3>Broken Symlinks (ls --color)</h3>
+    <p>A common problem with light themes: broken symlinks are invisible. MorningHue's <code>dircolors</code> configuration fixes this.</p>
+    <div class="ls-demo">
+<span style="color:#0000d7;font-weight:bold;">src/</span>          <span style="color:#0000d7;font-weight:bold;">include/</span>       <span style="color:#0000d7;font-weight:bold;">build/</span>
+<span style="color:#005f00;">Makefile</span>      <span style="color:#005f00;">run.tcl</span>        <span style="color:#005f00;">sim.py</span>
+<span style="color:#0000d7;font-weight:bold;">alu.sv</span>        <span style="color:#005f87;">libvcs.so</span> <span style="color:#005faf;">-&gt;</span> <span style="color:#005f00;">/tools/lib/libvcs.so</span>
+<span style="font-weight:bold;color:#af0000;background:#ffd7d7;">broken_link</span> <span style="color:#005faf;">-&gt;</span> <span style="font-weight:bold;color:#af0000;background:#ffd7d7;">/missing/target</span>   <span style="color:#949494;font-style:italic;">&larr; clearly visible!</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================== ACCESSIBILITY ======================== -->
+<section>
+  <div class="container">
+    <h2>Accessibility &amp; Contrast Ratios</h2>
+    <p>All contrast ratios are calculated against the background (<code>#F1EDE5</code>, luminance 0.849) using the <a href="https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html">WCAG 2.1 formula</a>. Colors are sorted by contrast ratio.</p>
+
+    <table>
+      <thead>
+        <tr><th>Color</th><th>Hex</th><th>cterm</th><th>Contrast Ratio</th><th>Grade</th><th>Usage</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="cr-bar" style="background:#0000d7;width:90px;"></span></td>
+          <td><code>#0000d7</code></td><td>20</td><td>9.08 : 1</td>
+          <td><span class="grade-aaa">AAA</span></td><td>Keyword, module, structure</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#870000;width:89px;"></span></td>
+          <td><code>#870000</code></td><td>88</td><td>8.86 : 1</td>
+          <td><span class="grade-aaa">AAA</span></td><td>PreProc, `define, `ifdef</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#444444;width:83px;"></span></td>
+          <td><code>#444444</code></td><td>238</td><td>8.33 : 1</td>
+          <td><span class="grade-aaa">AAA</span></td><td>Normal text</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#870087;width:76px;"></span></td>
+          <td><code>#870087</code></td><td>90</td><td>7.56 : 1</td>
+          <td><span class="grade-aaa">AAA</span></td><td>Control flow, always, if</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#5f00d7;width:73px;"></span></td>
+          <td><code>#5f00d7</code></td><td>56</td><td>7.29 : 1</td>
+          <td><span class="grade-aaa">AAA</span></td><td>Type, StorageClass</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#005f00;width:68px;"></span></td>
+          <td><code>#005f00</code></td><td>22</td><td>6.82 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>String</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#005f5f;width:64px;"></span></td>
+          <td><code>#005f5f</code></td><td>23</td><td>6.42 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Boolean, tag</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#af0000;width:64px;"></span></td>
+          <td><code>#af0000</code></td><td>124</td><td>6.37 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Error, exception</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#005f87;width:61px;"></span></td>
+          <td><code>#005f87</code></td><td>24</td><td>6.06 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Function, Identifier</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#005faf;width:55px;"></span></td>
+          <td><code>#005faf</code></td><td>25</td><td>5.52 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Operator, delimiter</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#875f00;width:49px;"></span></td>
+          <td><code>#875f00</code></td><td>94</td><td>4.90 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Number, constant</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#af00d7;width:47px;"></span></td>
+          <td><code>#af00d7</code></td><td>128</td><td>4.73 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Statement, assert</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#d70000;width:46px;"></span></td>
+          <td><code>#d70000</code></td><td>160</td><td>4.62 : 1</td>
+          <td><span class="grade-aa">AA</span></td><td>Import, include</td>
+        </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#949494;width:26px;"></span></td>
+          <td><code>#949494</code></td><td>246</td><td>2.60 : 1</td>
+          <td><span class="grade-sub">Subtle</span></td><td>Comment (italic)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Why Accessibility Matters for Code</h3>
+    <p>Engineers spend hours reading code on screen. A theme with poor contrast forces the eyes to work harder, leading to fatigue and missed details. MorningHue ensures:</p>
+    <ul style="margin:10px 0 10px 24px;max-width:720px;">
+      <li><strong>Keywords and types are immediately visible</strong> at AAA (7:1+), so structural boundaries are never missed</li>
+      <li><strong>All other syntax meets AA (4.5:1+)</strong>, the WCAG minimum for normal text</li>
+      <li><strong>Comments are intentionally subtle</strong> so they don't compete with active code</li>
+      <li><strong>Warm background reduces glare</strong> compared to pure white, especially in well-lit offices</li>
+    </ul>
+
+    <h3>Comparison with PaperColor</h3>
+    <p>PaperColor is an excellent theme, but several of its colors fall below the WCAG AA threshold on its own background. MorningHue addresses every one:</p>
+    <table>
+      <thead>
+        <tr><th>Element</th><th>PaperColor</th><th>CR</th><th>MorningHue</th><th>CR</th><th>Change</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Background</td><td><code>#eeeeee</code></td><td>&mdash;</td><td><code>#F1EDE5</code></td><td>&mdash;</td><td>Warmer, less harsh</td></tr>
+        <tr><td>Strings</td><td><code>#5f8700</code></td><td class="cmp-worse">3.65</td><td><code>#005f00</code></td><td class="cmp-better">6.82</td><td class="cmp-better">+87%</td></tr>
+        <tr><td>Statement</td><td><code>#d70087</code></td><td class="cmp-worse">4.27</td><td><code>#af00d7</code></td><td class="cmp-better">4.73</td><td class="cmp-better">+11%</td></tr>
+        <tr><td>Operator</td><td><code>#0087af</code></td><td class="cmp-worse">3.56</td><td><code>#005faf</code></td><td class="cmp-better">5.52</td><td class="cmp-better">+55%</td></tr>
+        <tr><td>Numbers</td><td><code>#d75f00</code></td><td class="cmp-worse">3.28</td><td><code>#875f00</code></td><td class="cmp-better">4.90</td><td class="cmp-better">+49%</td></tr>
+        <tr><td>Boolean</td><td><code>#008700</code></td><td class="cmp-worse">4.05</td><td><code>#005f5f</code></td><td class="cmp-better">6.42</td><td class="cmp-better">+59%</td></tr>
+        <tr><td>Broken symlinks</td><td colspan="2" style="color:#c62828;">Invisible</td><td colspan="2" style="color:#2e7d32;">Bold red on pink</td><td class="cmp-better">Fixed</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ======================== INSTALLATION ======================== -->
+<section>
+  <div class="container">
+    <h2>Installation</h2>
+
+    <h3>Vim / Neovim</h3>
+    <div class="install-code">mkdir -p ~/.vim/colors
+cp colors/morninghue.vim ~/.vim/colors/</div>
+    <p>Add to <code>~/.vimrc</code>:</p>
+    <div class="install-code">set background=light
+colorscheme morninghue</div>
+
+    <h3>xterm (.Xresources)</h3>
+    <div class="install-code">cp morninghue.Xresources ~/.Xresources
+xrdb -merge ~/.Xresources</div>
+
+    <h3>tmux</h3>
+    <p>Add to <code>~/.tmux.conf</code>:</p>
+    <div class="install-code">source-file /path/to/morninghue.tmux.conf</div>
+
+    <h3>dircolors (fixes broken symlinks)</h3>
+    <p>Add to your shell rc file:</p>
+    <div class="install-code"># bash / zsh
+[ -f /path/to/morninghue.dircolors ] && eval $(dircolors /path/to/morninghue.dircolors)
+
+# tcsh / csh
+if ( -f /path/to/morninghue.dircolors ) eval `dircolors -c /path/to/morninghue.dircolors`</div>
+  </div>
+</section>
+
+<!-- ======================== FOOTER ======================== -->
+<footer>
+  <div class="container">
+    <p>MorningHue &middot; MIT License &middot; <a href="https://github.com/yourusername/morninghue">GitHub</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
