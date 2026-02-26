@@ -144,13 +144,13 @@ EXEC 01;38;5;22
 .lua  00;38;5;22
 .vim  00;38;5;22
 
-# --- HDV source files (vivid blue — prominent for verification engineers) ---
-.sv     01;38;5;20
-.svh    01;38;5;20
-.v      01;38;5;20
-.vh     01;38;5;20
-.vhd    01;38;5;20
-.vhdl   01;38;5;20
+# --- HDV source files (vivid purple — prominent yet distinct from directories) ---
+.sv     01;38;5;56
+.svh    01;38;5;56
+.v      01;38;5;56
+.vh     01;38;5;56
+.vhd    01;38;5;56
+.vhdl   01;38;5;56
 .f      00;38;5;25
 .sdc    00;38;5;25
 .xdc    00;38;5;25

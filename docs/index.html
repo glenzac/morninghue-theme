@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MorningHue — A Vivid Light Color Theme</title>
-<meta name="description" content="MorningHue: a contrast-verified vivid light color theme for Vim, xterm, and tmux. WCAG AA/AAA compliant.">
+<meta name="description" content="MorningHue: a contrast-verified vivid light color theme for VS Code, Vim, xterm, and tmux. WCAG AA/AAA compliant.">
 <style>
   :root {
     --bg-page: #eeeeee;
@@ -230,11 +230,12 @@
 <section class="hero">
   <div class="container">
     <h1>MorningHue</h1>
-    <p class="tagline">A vivid light color theme for Vim, xterm, and tmux. Designed for brightly-lit environments with WCAG-verified contrast ratios.</p>
+    <p class="tagline">A vivid light color theme for VS Code, Vim, xterm, and tmux. Designed for brightly-lit environments with WCAG-verified contrast ratios.</p>
     <div class="hero-badges">
       <span class="badge badge-aaa">AAA 7:1+ Keywords</span>
       <span class="badge badge-aa">AA 4.5:1+ All Syntax</span>
       <span class="badge badge-light">Light Theme</span>
+      <span class="badge" style="background:#e8eaf6;color:#283593;">VS Code</span>
       <span class="badge" style="background:#f3e5f5;color:#6a1b9a;">256-Color</span>
     </div>
     <p style="margin:0 auto;"><a href="https://github.com/glenzac/morninghue-theme">View on GitHub</a></p>
@@ -646,7 +647,7 @@ This project contains the <span style="font-weight:bold;">UVM testbench</span> f
     <div class="ls-demo">
 <span style="color:#0000d7;font-weight:bold;">src/</span>          <span style="color:#0000d7;font-weight:bold;">include/</span>       <span style="color:#0000d7;font-weight:bold;">build/</span>
 <span style="color:#005f00;">Makefile</span>      <span style="color:#005f00;">run.tcl</span>        <span style="color:#005f00;">sim.py</span>
-<span style="color:#0000d7;font-weight:bold;">alu.sv</span>        <span style="color:#005f87;">libvcs.so</span> <span style="color:#005faf;">-&gt;</span> <span style="color:#005f00;">/tools/lib/libvcs.so</span>
+<span style="color:#5f00d7;font-weight:bold;">alu.sv</span>        <span style="color:#005f87;">libvcs.so</span> <span style="color:#005faf;">-&gt;</span> <span style="color:#005f00;">/tools/lib/libvcs.so</span>
 <span style="font-weight:bold;color:#af0000;background:#ffd7d7;">broken_link</span> <span style="color:#005faf;">-&gt;</span> <span style="font-weight:bold;color:#af0000;background:#ffd7d7;">/missing/target</span>   <span style="color:#949494;font-style:italic;">&larr; clearly visible!</span>
     </div>
   </div>
@@ -768,6 +769,15 @@ This project contains the <span style="font-weight:bold;">UVM testbench</span> f
 <section>
   <div class="container">
     <h2>Installation</h2>
+
+    <h3>VS Code</h3>
+    <p>Clone into your VS Code extensions directory:</p>
+    <div class="install-code"># Linux / macOS
+git clone https://github.com/glenzac/morninghue-theme ~/.vscode/extensions/morninghue
+
+# Windows
+git clone https://github.com/glenzac/morninghue-theme %USERPROFILE%\.vscode\extensions\morninghue</div>
+    <p>Then restart VS Code, open the <strong>Command Palette</strong> (<code>Ctrl+Shift+P</code>), type <strong>Preferences: Color Theme</strong>, and select <strong>MorningHue</strong>.</p>
 
     <h3>Vim / Neovim</h3>
     <div class="install-code">mkdir -p ~/.vim/colors
