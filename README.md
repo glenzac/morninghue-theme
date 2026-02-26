@@ -12,6 +12,7 @@ Warm off-white background with carefully contrast-verified vivid accents. Every 
 - **Vivid, accessible colors** — every syntax color is contrast-verified against the background
 - **AAA contrast (7:1+)** for the most important elements: keywords, control flow, types, preprocessor directives
 - **AA contrast (4.5:1+)** for secondary elements: strings, numbers, functions, operators
+- **VS Code support** — full workbench theme with token colors, semantic highlighting, and terminal palette
 - **256-color terminal support** — works in any modern terminal emulator
 - **GUI support** — works in gvim and Neovim with `termguicolors`
 - **Broken symlink visibility** — includes a dircolors config that fixes the common light-theme issue of invisible broken symlinks
@@ -147,7 +148,7 @@ This fixes the broken symlink visibility issue common with light terminal themes
 
 ## Language Support
 
-MorningHue defines all standard Vim highlight groups, so **any language with a Vim syntax file works out of the box**. Additionally, it includes optimized highlighting for:
+MorningHue defines all standard Vim highlight groups and VS Code TextMate/semantic token scopes, so **any language works out of the box**. Additionally, it includes optimized highlighting for:
 
 - **SystemVerilog / Verilog** — module boundaries, always blocks, assertions, and types are distinctly colored
 - **Python** — decorators, builtins, imports
