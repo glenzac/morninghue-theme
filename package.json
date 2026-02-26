@@ -1,0 +1,42 @@
+{
+  "name": "morninghue",
+  "displayName": "MorningHue",
+  "description": "A vivid light color theme for brightly-lit environments. Warm off-white background with WCAG-verified vivid accents.",
+  "version": "1.0.0",
+  "publisher": "glenzac",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Themes"
+  ],
+  "keywords": [
+    "light",
+    "theme",
+    "color-theme",
+    "warm",
+    "accessibility",
+    "wcag",
+    "systemverilog",
+    "hdl"
+  ],
+  "contributes": {
+    "themes": [
+      {
+        "label": "MorningHue",
+        "uiTheme": "vs",
+        "path": "./themes/MorningHue-color-theme.json"
+      }
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glenzac/morninghue-theme"
+  },
+  "icon": "docs/icon.png",
+  "galleryBanner": {
+    "color": "#F1EDE5",
+    "theme": "light"
+  }
+}

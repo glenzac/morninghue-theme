@@ -52,6 +52,25 @@ Warm off-white background with carefully contrast-verified vivid accents. Every 
 
 ## Installation
 
+### VS Code
+
+**From source (development):**
+
+1. Clone the repository into your VS Code extensions directory:
+
+```bash
+# Linux / macOS
+git clone https://github.com/glenzac/morninghue-theme ~/.vscode/extensions/morninghue
+
+# Windows
+git clone https://github.com/glenzac/morninghue-theme %USERPROFILE%\.vscode\extensions\morninghue
+```
+
+2. Restart VS Code, then select the theme:
+   - Open **Command Palette** (`Ctrl+Shift+P` / `Cmd+Shift+P`)
+   - Type **Preferences: Color Theme**
+   - Select **MorningHue**
+
 ### Vim / Neovim
 
 **Plain file (recommended):**
