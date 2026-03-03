@@ -57,8 +57,8 @@ XTerm*color4:          #0000d7
 XTerm*color5:          #870087
 ! 6: Cyan (identifiers, operators)
 XTerm*color6:          #005f87
-! 7: White (dark gray for visibility on light background)
-XTerm*color7:          #3a3a3a
+! 7: White (same as foreground – dark for visibility on light background)
+XTerm*color7:          #444444
 
 ! Bright colors (8-15)
 ! 8: Bright black (comments)

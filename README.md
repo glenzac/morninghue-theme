@@ -16,6 +16,7 @@ Warm off-white background with carefully contrast-verified vivid accents. Every 
 - **256-color terminal support** — works in any modern terminal emulator
 - **GUI support** — works in gvim and Neovim with `termguicolors`
 - **Broken symlink visibility** — includes a dircolors config that fixes the common light-theme issue of invisible broken symlinks
+- **Terminal tool compatibility** — ANSI white slots (color7, color15) are mapped to dark values so TUI tools like GitHub Copilot CLI render text visibly on the light background
 - **30+ languages** — covers all standard Vim syntax groups, so any language Vim recognizes gets proper highlighting
 - **DV-optimized** — extra attention to SystemVerilog, TCL, and hardware design verification workflow highlighting
 
@@ -50,6 +51,15 @@ Warm off-white background with carefully contrast-verified vivid accents. Every 
 | ![#005faf](https://placehold.co/16x16/005faf/005faf) Medium Blue | `#005faf` | 25 | Status bar, visual selection, cursor |
 | ![#ffff5f](https://placehold.co/16x16/ffff5f/ffff5f) Bright Yellow | `#ffff5f` | 227 | Search highlight |
 | ![#949494](https://placehold.co/16x16/949494/949494) Gray | `#949494` | 246 | Comments (italic, intentionally subtle) |
+
+### Terminal ANSI Palette (color0–color15)
+
+On a light background the standard "white" palette slots must be remapped to dark values — otherwise TUI tools that render text in color7 or color15 (such as GitHub Copilot CLI) become invisible.
+
+| Slot | Hex | Usage |
+|------|-----|-------|
+| color7 / ansiWhite | `#444444` | Remapped to foreground dark — matches the theme's primary text color |
+| color15 / ansiBrightWhite | `#1c1c1c` | Remapped to near-black — ensures maximum contrast for bright-white text |
 
 ## Installation
 

@@ -734,8 +734,14 @@ This project contains the <span style="font-weight:bold;">UVM testbench</span> f
           <td><code>#949494</code></td><td>246</td><td>2.60 : 1</td>
           <td><span class="grade-sub">Subtle</span></td><td>Comment (italic)</td>
         </tr>
+        <tr>
+          <td><span class="cr-bar" style="background:#1c1c1c;width:100px;"></span></td>
+          <td><code>#1c1c1c</code></td><td>&mdash;</td><td>16.29 : 1</td>
+          <td><span class="grade-aaa">AAA</span></td><td>ANSI color15 (bright white) — remapped for TUI tool visibility</td>
+        </tr>
       </tbody>
     </table>
+    <p style="font-size:0.82rem;color:#666;margin-top:8px;">* ANSI palette slots color7 (<code>#444444</code>, listed above as Normal text) and color15 (<code>#1c1c1c</code>) are remapped to dark values. On a light background, tools like GitHub Copilot CLI render text in these slots; keeping them light would make the output invisible.</p>
 
     <h3>Why Accessibility Matters for Code</h3>
     <p>Engineers spend hours reading code on screen. A theme with poor contrast forces the eyes to work harder, leading to fatigue and missed details. MorningHue ensures:</p>
@@ -789,6 +795,7 @@ colorscheme morninghue</div>
     <h3>xterm (.Xresources)</h3>
     <div class="install-code">cp morninghue.Xresources ~/.Xresources
 xrdb -merge ~/.Xresources</div>
+    <p style="font-size:0.82rem;color:#666;">The ANSI white palette slots are remapped to dark values (<code>color7 = #444444</code>, <code>color15 = #1c1c1c</code>) so TUI tools like GitHub Copilot CLI render text visibly on the light background.</p>
 
     <h3>tmux</h3>
     <p>Add to <code>~/.tmux.conf</code>:</p>
