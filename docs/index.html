@@ -230,7 +230,7 @@
 <section class="hero">
   <div class="container">
     <h1>MorningHue</h1>
-    <p class="tagline">A vivid light color theme for VS Code, Vim, xterm, and tmux. Designed for brightly-lit environments with WCAG-verified contrast ratios.</p>
+    <p class="tagline">A vivid light color theme for VS Code, Vim, iTerm2, and tmux. Warm off-white background, WCAG-verified contrast ratios, and research-backed design for brightly-lit environments.</p>
     <div class="hero-badges">
       <span class="badge badge-aaa">AAA 7:1+ Keywords</span>
       <span class="badge badge-aa">AA 4.5:1+ All Syntax</span>
@@ -770,6 +770,66 @@ This project contains the <span style="font-weight:bold;">UVM testbench</span> f
         <tr><td>Broken symlinks</td><td colspan="2" style="color:#c62828;">Invisible</td><td colspan="2" style="color:#2e7d32;">Bold red on pink</td><td class="cmp-better">Fixed</td></tr>
       </tbody>
     </table>
+  </div>
+</section>
+
+<!-- ======================== WHY A LIGHT THEME ======================== -->
+<section>
+  <div class="container">
+    <h2>Why a Light Theme?</h2>
+    <p>MorningHue is designed for brightly-lit environments. There is peer-reviewed research supporting this design choice — but the picture is nuanced. This section presents what the evidence actually says.</p>
+
+    <h3>The positive polarity advantage</h3>
+    <p><em>Polarity</em> is the term researchers use for the relationship between text and background luminance. <strong>Positive polarity</strong> means dark text on a light background; <strong>negative polarity</strong> means light text on a dark background.</p>
+    <p>Multiple controlled studies find that positive polarity produces better proofreading accuracy and faster reading speed under typical office lighting. The clearest mechanistic explanation is optical, not perceptual: a bright background causes the pupil to constrict. Smaller pupils reduce spherical and chromatic aberrations in the eye's lens, producing a sharper retinal image. A 2014 study by Piepenbrock, Mayr, and Buchner directly measured smaller pupil sizes and better performance with positive polarity displays.¹ The same group found the effect was more pronounced with smaller character sizes² — relevant for code, where identifiers and operators are often small.</p>
+    <p>Importantly, a 2007 study by Buchner and Baumgartner⁴ found that when display <em>luminance</em> was equalized between the two polarity conditions, the performance difference disappeared. <strong>The advantage is a luminance effect, not a polarity effect per se.</strong> In normal use, positive polarity displays are brighter overall, and it is that extra luminance — driving pupil constriction — that produces the reading benefit.</p>
+
+    <div class="ui-grid" style="margin:16px 0;">
+      <div style="flex:1;min-width:200px;background:var(--bg-theme);border:1px solid #ddd6cc;border-radius:8px;padding:16px;">
+        <div style="font-family:monospace;font-size:0.88rem;color:var(--fg);font-weight:600;margin-bottom:6px;">Positive polarity</div>
+        <div style="font-family:monospace;font-size:0.84rem;color:var(--blue);">int</div>
+        <div style="font-family:monospace;font-size:0.84rem;color:var(--fg);">result = <span style="color:var(--golden);font-weight:bold;">42</span>;</div>
+        <div style="font-size:0.74rem;color:#888;margin-top:8px;">Bright bg → pupil constricts<br>→ sharper retinal image</div>
+      </div>
+      <div style="flex:1;min-width:200px;background:#1e1e2e;border:1px solid #333;border-radius:8px;padding:16px;">
+        <div style="font-family:monospace;font-size:0.88rem;color:#cdd6f4;font-weight:600;margin-bottom:6px;">Negative polarity</div>
+        <div style="font-family:monospace;font-size:0.84rem;color:#89b4fa;">int</div>
+        <div style="font-family:monospace;font-size:0.84rem;color:#cdd6f4;">result = <span style="color:#fab387;font-weight:bold;">42</span>;</div>
+        <div style="font-size:0.74rem;color:#888;margin-top:8px;">Dark bg → pupil dilates<br>→ more optical aberration</div>
+      </div>
+    </div>
+
+    <h3>Ambient light is the key variable</h3>
+    <p>The advantage is conditional on environment. A 2024 study⁵ found that under high ambient brightness, negative polarity actually produced <em>lower</em> eye fatigue — the dark screen reduces total luminance load when the room itself is already very bright. Research by Dobres et al. (2017)⁶ consistently shows that what matters most is matching screen luminance to ambient light: when screen brightness is close to the environmental brightness, visual fatigue is reduced regardless of polarity.</p>
+
+    <div style="background:var(--bg-cursor);border-left:3px solid var(--accent);border-radius:4px;padding:12px 16px;margin:12px 0;max-width:700px;">
+      <strong>Design rationale:</strong> MorningHue is designed for bright offices and indoor workspaces where ambient and screen luminance are naturally similar — the context where the positive polarity advantage is most consistent and most measured.
+    </div>
+
+    <h3>Warm white, not pure white</h3>
+    <p>Pure white backgrounds (<code>#ffffff</code>) maximize the luminance benefit but can introduce <em>halation</em> — a perception of light "bleeding" into surrounding dark text, especially noticeable for users with astigmatism. The warm off-white background of MorningHue (<code>#F1EDE5</code>) retains enough luminance to drive pupil constriction while reducing the harshness that makes extended reading on pure-white screens uncomfortable.</p>
+
+    <h3>When a dark theme is the right choice</h3>
+    <p>The research does <strong>not</strong> support positive polarity as universally superior. Dark themes are a legitimate choice in several contexts:</p>
+    <ul style="margin:10px 0 10px 24px;max-width:700px;line-height:1.9;">
+      <li><strong>Dim or dark environments</strong> — dark themes reduce glare and better match low ambient luminance, where the positive polarity advantage disappears or reverses</li>
+      <li><strong>Individual differences</strong> — polarity effects vary significantly between people; population studies show each polarity benefits a comparable proportion of individuals</li>
+      <li><strong>Perceived cognitive workload</strong> — a 2025 ACM CHI eye-tracking study⁷ found dark mode produced significantly lower perceived workload on complex visual tasks</li>
+      <li><strong>Low contrast sensitivity</strong> — users with certain vision conditions, low vision, or cataracts may read faster with negative polarity</li>
+      <li><strong>Personal preference</strong> — a theme you find comfortable is better than one you merely tolerate</li>
+    </ul>
+    <p>There is also <strong>no peer-reviewed research specifically on dark vs light themes for code reading</strong>. Any claim that one polarity is objectively better for programming goes beyond the available evidence.</p>
+
+    <h3>Sources</h3>
+    <ol style="margin:10px 0 10px 24px;max-width:700px;font-size:0.83rem;line-height:2;">
+      <li>Piepenbrock, C., Mayr, S., &amp; Buchner, A. (2014). Smaller pupil size and better proofreading performance with positive than with negative polarity displays. <em>Ergonomics</em>, 57(11), 1670–1677. <a href="https://pubmed.ncbi.nlm.nih.gov/25135324/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov/25135324</a></li>
+      <li>Piepenbrock, C., Mayr, S., Mund, I., &amp; Buchner, A. (2013). Positive display polarity is advantageous for both younger and older adults. <em>Ergonomics</em>, 56(7), 1116–1124. <a href="https://doi.org/10.1080/00140139.2013.790485" target="_blank" rel="noopener">doi:10.1080/00140139.2013.790485</a></li>
+      <li>Piepenbrock, C., Mayr, S., &amp; Buchner, A. (2014). Positive display polarity is particularly advantageous for small character sizes. <em>Human Factors</em>, 56(5), 942–951. <a href="https://journals.sagepub.com/doi/abs/10.1177/0018720813515509" target="_blank" rel="noopener">doi:10.1177/0018720813515509</a></li>
+      <li>Buchner, A., &amp; Baumgartner, N. (2007). Text–background polarity affects performance irrespective of ambient illumination and colour contrast. <em>Ergonomics</em>, 50(7), 1036–1063. <a href="https://pubmed.ncbi.nlm.nih.gov/19562598/" target="_blank" rel="noopener">pubmed.ncbi.nlm.nih.gov/19562598</a></li>
+      <li>Eichenbaum et al. (2024). Effects of ambient illuminance on display polarity, visual fatigue, and reading performance. <em>BMC Ophthalmology / PMC</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11175232/" target="_blank" rel="noopener">pmc.ncbi.nlm.nih.gov/articles/PMC11175232</a></li>
+      <li>Dobres, J., Chahine, N., &amp; Reimer, B. (2017). Perceptual and legibility thresholds for positive and negative polarity text in indoor and outdoor environments. <em>Applied Ergonomics</em>, 65, 41–47. <a href="https://doi.org/10.1016/j.apergo.2016.08.011" target="_blank" rel="noopener">doi:10.1016/j.apergo.2016.08.011</a></li>
+      <li>Wang, Y. et al. (2025). The dark side of dark mode: an eye-tracking study. <em>ACM CHI 2025</em>. <a href="https://dl.acm.org/doi/10.1145/3715669.3725879" target="_blank" rel="noopener">doi:10.1145/3715669.3725879</a></li>
+    </ol>
   </div>
 </section>
 
