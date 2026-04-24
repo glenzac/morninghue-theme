@@ -237,8 +237,10 @@
       <span class="badge badge-light">Light Theme</span>
       <span class="badge" style="background:#e8eaf6;color:#283593;">VS Code</span>
       <span class="badge" style="background:#f3e5f5;color:#6a1b9a;">256-Color</span>
+      <span class="badge" style="background:#e8f5e9;color:#2e7d32;">iTerm2</span>
+      <span class="badge" style="background:#fff8e1;color:#e65100;">zsh</span>
     </div>
-    <p style="margin:0 auto;"><a href="https://github.com/glenzac/morninghue-theme">View on GitHub</a></p>
+    <p style="margin:0 auto;"><a href="https://github.com/glenzac/morninghue-theme">View on GitHub</a> &middot; <a href="https://github.com/glenzac/morninghue-theme#iterm2-macos">iTerm2</a> &middot; <a href="https://github.com/glenzac/morninghue-theme#zsh">zsh</a></p>
   </div>
 </section>
 
@@ -792,10 +794,25 @@ cp colors/morninghue.vim ~/.vim/colors/</div>
     <div class="install-code">set background=light
 colorscheme morninghue</div>
 
+    <h3>iTerm2 (macOS)</h3>
+    <ol style="margin:8px 0 12px 24px;max-width:600px;">
+      <li>Open <strong>iTerm2 → Preferences → Profiles → Colors</strong></li>
+      <li>Click <strong>Color Presets… → Import…</strong> and select <code>morninghue.itermcolors</code></li>
+      <li>Select <strong>MorningHue</strong> from the Color Presets dropdown</li>
+    </ol>
+
+    <h3>zsh prompt theme</h3>
+    <p><strong>oh-my-zsh:</strong></p>
+    <div class="install-code">cp morninghue.zsh-theme ~/.oh-my-zsh/themes/morninghue.zsh-theme</div>
+    <p>Set <code>ZSH_THEME="morninghue"</code> in <code>~/.zshrc</code>.</p>
+    <p><strong>Standalone:</strong></p>
+    <div class="install-code">source /path/to/morninghue.zsh-theme  # add to ~/.zshrc</div>
+    <p style="font-size:0.82rem;color:#666;">The prompt uses ANSI palette colors — combine with the iTerm2 preset so the prompt accents automatically match the theme's exact hues.</p>
+
     <h3>xterm (.Xresources)</h3>
     <div class="install-code">cp morninghue.Xresources ~/.Xresources
 xrdb -merge ~/.Xresources</div>
-    <p style="font-size:0.82rem;color:#666;">The ANSI white palette slots are remapped to dark values (<code>color7 = #444444</code>, <code>color15 = #1c1c1c</code>) so TUI tools like GitHub Copilot CLI render text visibly on the light background.</p>
+    <p style="font-size:0.82rem;color:#666;">ANSI palette slots color7 and color15 are remapped to dark values so TUI tools like GitHub Copilot CLI render text visibly on the light background. Several bright slots are also semantically remapped — see the <a href="https://github.com/glenzac/morninghue-theme#terminal-ansi-palette-color0color15">ANSI palette table</a>.</p>
 
     <h3>tmux</h3>
     <p>Add to <code>~/.tmux.conf</code>:</p>

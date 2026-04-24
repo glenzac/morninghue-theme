@@ -13,10 +13,12 @@ Warm off-white background with carefully contrast-verified vivid accents. Every 
 - **AAA contrast (7:1+)** for the most important elements: keywords, control flow, types, preprocessor directives
 - **AA contrast (4.5:1+)** for secondary elements: strings, numbers, functions, operators
 - **VS Code support** — full workbench theme with token colors, semantic highlighting, and terminal palette
+- **iTerm2 support** — native macOS color preset (`.itermcolors`) with the full 16-color palette
+- **zsh theme** — oh-my-zsh compatible prompt with git status, works standalone too
 - **256-color terminal support** — works in any modern terminal emulator
 - **GUI support** — works in gvim and Neovim with `termguicolors`
 - **Broken symlink visibility** — includes a dircolors config that fixes the common light-theme issue of invisible broken symlinks
-- **Terminal tool compatibility** — ANSI white slots (color7, color15) are mapped to dark values so TUI tools like GitHub Copilot CLI render text visibly on the light background
+- **Terminal tool compatibility** — ANSI palette remapped so TUI tools like GitHub Copilot CLI render text visibly on the light background
 - **30+ languages** — covers all standard Vim syntax groups, so any language Vim recognizes gets proper highlighting
 - **DV-optimized** — extra attention to SystemVerilog, TCL, and hardware design verification workflow highlighting
 
@@ -54,12 +56,26 @@ Warm off-white background with carefully contrast-verified vivid accents. Every 
 
 ### Terminal ANSI Palette (color0–color15)
 
-On a light background the standard "white" palette slots must be remapped to dark values — otherwise TUI tools that render text in color7 or color15 (such as GitHub Copilot CLI) become invisible.
+On a light background the standard "white" palette slots must be remapped to dark values — otherwise TUI tools that render text in color7 or color15 (such as GitHub Copilot CLI) become invisible. Several other bright slots are also semantically remapped so TUI tools get readable, theme-coherent colors.
 
-| Slot | Hex | Usage |
-|------|-----|-------|
-| color7 / ansiWhite | `#444444` | Remapped to foreground dark — matches the theme's primary text color |
-| color15 / ansiBrightWhite | `#1c1c1c` | Remapped to near-black — ensures maximum contrast for bright-white text |
+| Slot | Hex | cterm | CR | Usage |
+|------|-----|-------|----|-------|
+| color0 / ansiBlack | `#444444` | 238 | 8.33 | Black → foreground dark |
+| color1 / ansiRed | `#af0000` | 124 | 6.37 | Errors, deletions |
+| color2 / ansiGreen | `#005f00` | 22 | 6.82 | Strings, success |
+| color3 / ansiYellow | `#875f00` | 94 | 4.90 | Numbers, warnings |
+| color4 / ansiBlue | `#0000d7` | 20 | 9.08 | Keywords, structure |
+| color5 / ansiMagenta | `#870087` | 90 | 7.56 | Control flow |
+| color6 / ansiCyan | `#005f87` | 24 | 6.02 | Identifiers, functions |
+| color7 / ansiWhite | `#444444` | 238 | 8.33 | **Remapped to dark** — TUI tool visibility |
+| color8 / ansiBrightBlack | `#949494` | 246 | 2.60 | Comments (subtle) |
+| color9 / ansiBrightRed | `#d70000` | 160 | 4.62 | Imports, vivid red |
+| color10 / ansiBrightGreen | `#005f87` | 24 | 6.02 | Functions (semantic remap) |
+| color11 / ansiBrightYellow | `#af00d7` | 128 | 4.73 | Statements, assertions (semantic remap) |
+| color12 / ansiBrightBlue | `#005faf` | 25 | 5.52 | Operators, accent |
+| color13 / ansiBrightMagenta | `#af005f` | 132 | 6.02 | Rose accent |
+| color14 / ansiBrightCyan | `#005f5f` | 23 | 6.42 | Booleans, constants (semantic remap) |
+| color15 / ansiBrightWhite | `#1c1c1c` | — | 14.60 | **Remapped to near-black** — TUI tool visibility |
 
 ## Installation
 
@@ -114,6 +130,37 @@ set termguicolors
 ```vim
 Plug 'yourusername/morninghue'
 ```
+
+### iTerm2 (macOS)
+
+1. Open **iTerm2 → Preferences → Profiles → Colors**
+2. Click **Color Presets… → Import…** and select `morninghue.itermcolors`
+3. Select **MorningHue** from the Color Presets dropdown
+
+### zsh
+
+**oh-my-zsh:**
+
+```bash
+cp morninghue.zsh-theme ~/.oh-my-zsh/themes/morninghue.zsh-theme
+```
+
+Add to `~/.zshrc`:
+
+```zsh
+ZSH_THEME="morninghue"
+```
+
+**Standalone (no oh-my-zsh):**
+
+```bash
+# Add to ~/.zshrc
+source /path/to/morninghue.zsh-theme
+```
+
+The theme uses standard ANSI palette colors. When combined with the iTerm2 preset (or `morninghue.Xresources`), the prompt picks up the theme's exact accent colors automatically.
+
+For `ls` colors and broken-symlink highlighting, also set up [dircolors](#dircolors-ls-colors--broken-symlinks-fix).
 
 ### xterm
 
